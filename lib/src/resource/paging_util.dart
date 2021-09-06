@@ -1,15 +1,17 @@
+import 'package:built_value/built_value.dart';
+
 class LazyLoadEvent {
-  /*
-  int first;
-  int rows;
-  String sortField;
-  int sortOrder;
-  bool globalFilter;
+
+ late int first;
+  late int rows;
+  late String sortField;
+  late int sortOrder;
+  late bool globalFilter = true;
 
   LazyLoadEvent(this.first, this.rows,
-      [this.sortField, sortOrder, this.globalFilter]);
+   ); //   [this.sortField, sortOrder, this.globalFilter]
 
-  LazyLoadEvent.fromJson(Map<String, Object> json)
+  LazyLoadEvent.fromJson(Map<String, dynamic> json)
       : first = json['first'],
         rows = json['rows'],
         sortField = json['sortField'],
@@ -25,7 +27,7 @@ class LazyLoadEvent {
     'globalFilter': globalFilter
   };
 
-  */
+
 }
 
 class PageRequestByExample<E> {
@@ -38,6 +40,18 @@ class PageRequestByExample<E> {
   Map<String, dynamic> toJson() =>
       {'example': example, 'lazyLoadEvent': lazyLoadEvent};
 }
+
+
+class PageRequestByExample2<E>{
+
+  LazyLoadEvent lazyLoadEvent;
+
+  PageRequestByExample2( this.lazyLoadEvent);
+
+  Map<String, dynamic> toJson() =>
+      { 'lazyLoadEvent': lazyLoadEvent};
+}
+
 
 class PageResponse<T> {
   final int totalPages;

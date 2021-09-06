@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:phabis_flutter/src/model/InvoiceModel.dart';
+import 'package:phabis_flutter/src/model/TurnoverInvoiceDto.dart';
 import 'package:phabis_flutter/src/resource/paging_util.dart';
 
 import 'invoice_api_proivder.dart';
@@ -8,7 +8,8 @@ import 'invoice_api_proivder.dart';
 class Repository {
 
   final invoiceApiProvider = InvoiceApiProvider();
-/*
+
+  /*
   Future<PageResponse<Invoice>> fetchInvoices(Invoice invoiceDto, int first, int rows) =>
       invoiceApiProvider.fetchInvoices(invoiceDto, first, rows);
 

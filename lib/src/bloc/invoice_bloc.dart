@@ -1,4 +1,4 @@
-import 'package:phabis_flutter/src/model/InvoiceModel.dart';
+import 'package:phabis_flutter/src/model/TurnoverInvoiceDto.dart';
 import 'package:phabis_flutter/src/resource/paging_util.dart';
 import '../resource/repository.dart';
 import 'package:rxdart/rxdart.dart';
@@ -9,7 +9,7 @@ class InvoiceBloc {
 /*
   Observable<List<Invoice>> get allInvoices => _invoicesFetcher.stream;
 
-  fetchInvoices(Invoice invoiceDto, int first, int rows) async {
+  fetchInvoices(Invoice invoice, int first, int rows) async {
     PageResponse<Invoice> itemModel = await _repository.fetchInvoices(invoiceDto, first, rows);
     List<Invoice> content = itemModel.content;
     _invoicesFetcher.sink.add(content);

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home_page.dart';
+import 'invoice_page.dart';
 import 'widget/my_text_form_field.dart';
 import 'widget/my_button.dart';
 import '../bloc/invoice_bloc.dart';
@@ -80,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
     }
   }*/
   void submit(BuildContext context){
-    Navigator.of(context).pushNamed(HomePage.tag);
+    Navigator.of(context).pushNamed(InvoicePage.tag);
   }
 
   Future<void> _loginErrorDialog() async {

@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:phabis_flutter/src/model/TurnoverInvoiceDto.dart';
 
 class InvoicePage extends StatefulWidget {
+  static String tag = 'invoice-page';
   const InvoicePage({Key? key}) : super(key: key);
 
   @override
@@ -9,6 +11,8 @@ class InvoicePage extends StatefulWidget {
 }
 
 class _InvoicePageState extends State<InvoicePage> {
+  Invoice invoice = Invoice();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,14 +20,14 @@ class _InvoicePageState extends State<InvoicePage> {
         appBar: AppBar(
           title: Text('Invoice page'),
         ),
-        body: InvoiceCard());
+        body: InvoiceCard(invoice));
   }
 }
 
 void navigate() { print("Pressed");}
 var padding = Padding(padding: EdgeInsets.all(12));
 
-Widget InvoiceCard() {
+Widget InvoiceCard(Invoice invoice) {
   return Center(
     //heightFactor: 3.3,
     child: Column(children: [
@@ -51,7 +55,10 @@ Widget InvoiceCard() {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Фактура сериски број',
+                        'Број на фактура: ', style: TextStyle(fontSize: 13),
+                      ),
+                      Text(
+                        invoice.partnerDocumentNumber.toString(),
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 15),
                       ),
@@ -73,7 +80,7 @@ Widget InvoiceCard() {
                       ),
                       Padding(padding: EdgeInsets.all(5)),
                       Text(
-                        'Количина',
+                        invoice.purchaseAmount.toString(),
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 15),
                       ),
@@ -93,7 +100,7 @@ Widget InvoiceCard() {
                     child: Text(
                       'Износ без ДДВ',
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                          TextStyle( fontSize: 13),
                     ),
                   ),
                   padding,
@@ -105,9 +112,9 @@ Widget InvoiceCard() {
                       ),
                     ),
                     child: Text(
-                      'Даночна стапка',
+                      invoice.retailPrice.toString(),
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
                   )
                 ],
@@ -124,9 +131,9 @@ Widget InvoiceCard() {
                       ),
                     ),
                     child: Text(
-                      'ДДВ',
+                      'ДДВ %',
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                          TextStyle( fontSize: 13),
                     ),
                   ),
                   padding,
@@ -138,9 +145,9 @@ Widget InvoiceCard() {
                       ),
                     ),
                     child: Text(
-                      'Единечна цена',
+                      invoice.retailMargin.toString(),
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
                   )
                 ],
@@ -157,7 +164,7 @@ Widget InvoiceCard() {
                       ),
                       Padding(padding: EdgeInsets.all(5)),
                       Text(
-                        'Вкупен износ',
+                        invoice.invoicePrice.toString(),
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 15),
                       ),

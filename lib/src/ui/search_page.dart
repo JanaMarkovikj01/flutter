@@ -1,7 +1,7 @@
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:phabis_flutter/src/model/InvoiceModel.dart';
+import 'package:phabis_flutter/src/model/TurnoverInvoiceDto.dart';
 
 import '../model/formatter.dart';
 
@@ -18,22 +18,21 @@ class SearchPage extends StatefulWidget {
 }
 
 class SearchPageState extends State<SearchPage> {
-  final _formKey = GlobalKey<FormState>();
-  final _repository = Repository();
- static Invoice example = Invoice();
-
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     throw UnimplementedError();
   }
+  /*
+  final _formKey = GlobalKey<FormState>();
+  final _repository = Repository();
+ static Invoice example = Invoice();
 
- /*
+
   TextEditingController _invoiceController = TextEditingController();
   TextEditingController _workDayController = TextEditingController();
   TextEditingController _fromController = TextEditingController();
   TextEditingController _toController = TextEditingController();
-  TextEditingController _dentistController = TextEditingController();
 
   @override
   void initState() {
@@ -57,7 +56,7 @@ class SearchPageState extends State<SearchPage> {
 
     final invoice = TypeAheadFormField<dynamic>(
       textFieldConfiguration: TextFieldConfiguration(
-          decoration: MyInputDecoration(hintText: 'пациент'),
+          decoration: MyInputDecoration(hintText: 'фактура'),
           controller: _invoiceController),
       suggestionsCallback: (pattern) => _repository.autocompleteInvoice(pattern),
       itemBuilder: (BuildContext context, dynamic invoice) => ListTile(title: Text((invoice as Invoice).toString())),
@@ -131,7 +130,6 @@ class SearchPageState extends State<SearchPage> {
                 new ListTile(leading: const Icon(Icons.today), title: workDay),
                 new ListTile(leading: const Icon(Icons.today), title: from),
                 new ListTile(leading: const Icon(Icons.today), title: to),
-                new ListTile(leading: const Icon(Icons.person_outline), title: dentist)
               ],
             ))
     );
