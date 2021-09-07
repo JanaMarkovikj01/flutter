@@ -13,23 +13,12 @@ import 'package:time_machine/time_machine.dart';
 @JsonSerializable()
 class Invoice extends TurnoverDto{
 
-  /*Invoice(
-      {partnerDocumentNumber,
-      partnerDocumentDate,
-      partnerDocumentDueDatePayment}) {
-    this.retailPrice = 4057.0;
-    this.invoicePrice = 47888.0;
-    this.retailMargin = 18.0;
-    this.partnerDocumentNumber = 'ONV8072017-00075';
-    this.purchaseAmount = 12.0;
-  }*/
-
-  Invoice({documentNumber, partnerDocumentNumber, invoicePrice}){
-this.documentNumber = 'PRI18000340';
-this.partnerDocumentNumber = '18461/18';
+  Invoice(){
+//this.documentNumber = 'PRI18000340';
+//this.partnerDocumentNumber = '18461/18';
   }
 
-  late String partnerDocumentNumber;
+  String? partnerDocumentNumber;
   late LocalDate partnerDocumentDate;
   late LocalDate partnerDocumentDueDatePayment;
   late double invoicePrice;
@@ -48,7 +37,7 @@ this.partnerDocumentNumber = '18461/18';
   late String counterPartyPartnerId;
   late String counterPartyPartnerName;
 
-  late LocalDate filterStartPartnerDocumentDate;
+   LocalDate? filterStartPartnerDocumentDate;
   late LocalDate filterEndPartnerDocumentDate;
   late LocalDate filterStartPartnerDocumentDueDatePayment;
   late LocalDate filterEndPartnerDocumentDueDatePayment;
@@ -62,12 +51,11 @@ this.partnerDocumentNumber = '18461/18';
   static get _$invoiceSerializer => null;
 
   factory Invoice.fromJson(Map<String, dynamic> json) => Invoice(
-        partnerDocumentNumber: json["partnerDocumentNumber"],
-      invoicePrice: json["invoicePrice"],
+        //partnerDocumentNumber: json["partnerDocumentNumber"],
+      //invoicePrice: json["invoicePrice"],
       );
 
   Map<String, dynamic> toJson() => {
-        "partnerDocumentNumber": partnerDocumentNumber,
-
+       // "partnerDocumentNumber": partnerDocumentNumber,
       };
 }

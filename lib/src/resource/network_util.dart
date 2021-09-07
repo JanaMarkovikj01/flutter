@@ -7,24 +7,24 @@ InvoiceApiProvider apiProvider = InvoiceApiProvider();
 
 class NetworkUtil {
   static Dio _dio = new Dio();
-
-  static String cookie = '';
-  static Future<String> token = apiProvider.fetchToken();
-  String newToken = token.toString();
+  String newToken = apiProvider.fetchToken().toString();
 
   static NetworkUtil _instance = NetworkUtil.internal();
 
   factory NetworkUtil() => _instance;
 
   static final String baseUrl = 'https://artemisoft.dyndns-work.com:8443';
+  static final String allInvoicesUrl= baseUrl + '/phabis2-turnover/api/turnoverInvoice/page';
 
   NetworkUtil.internal() {
-    _dio.options.baseUrl = baseUrl;
+    _dio.interceptors.clear();
+    _dio.options.baseUrl = allInvoicesUrl;
     _dio.interceptors
         .add(InterceptorsWrapper(onRequest: (RequestOptions options) {
       options.headers["Authorization"] = "Bearer " + newToken;
       return options;
     }, onResponse: (Response response) {
+          print(response);
       // Do something with response data
       return response; // continue
     }, onError: (DioError e) {
