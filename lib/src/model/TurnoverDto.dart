@@ -1,35 +1,24 @@
-import 'package:time_machine/time_machine.dart';
 
-import 'TurnoverType.dart';
+import 'package:json_annotation/json_annotation.dart';
+part'TurnoverDto.g.dart';
 
+@JsonSerializable()
 class TurnoverDto{
-  TurnoverDto({documentNumber, quantity}){
-  }
+    String? id;
+  //DocumentType documentType;
+    String? documentNumber;
+    DateTime? documentDate;
+    double? quantity;
+    double? vatRate;
+   // TurnoverType? turnoverType;
+    double? divide;
+    bool? confirmed;
+    double? groupTotal;
+    bool? groupTopRecord;
+  TurnoverDto({ this.id, this.documentNumber, this.documentDate, this.quantity, this.vatRate, this.divide, this.confirmed, this.groupTopRecord, this.groupTotal});
 
-   late String id;
-  // DocumentType documentType;
-   late String documentNumber;
-   late LocalDateTime documentDate;
-   late double quantity;
-   late double vatRate;
-  late  TurnoverType turnoverType;
-   late double divide;
-   late bool confirmed;
-   late double groupTotal;
-   late bool groupTopRecord;
-   late Instant createDate;
-   //ProductDto product;
-   //AccountDto account;
-  // PharmacyDto pharmacy;
+  factory TurnoverDto.fromJson(Map<String,dynamic> data) => _$TurnoverDtoFromJson(data);
 
-   factory TurnoverDto.fromJson(Map<String, dynamic> json) => TurnoverDto(
-     documentNumber: json["documentNumber"],
-     quantity: json["quantity"],
-   );
-
-   Map<String, dynamic> toJson() => {
-     "documentNumber": documentNumber,
-     "quantity": quantity,
-   };
+  Map<String,dynamic> toJson() => _$TurnoverDtoToJson(this);
 
 }

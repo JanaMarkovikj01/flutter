@@ -1,61 +1,38 @@
 import 'dart:core';
-
-import 'package:built_value/serializer.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:lombok/lombok.dart';
-import 'package:phabis_flutter/src/model/TurnoverDto.dart';
-import 'package:time_machine/time_machine.dart';
+import 'TurnoverDto.dart';
+part'TurnoverInvoiceDto.g.dart';
 
-@getter
-@setter
-@data
-@toString
 @JsonSerializable()
 class Invoice extends TurnoverDto{
 
-  Invoice(){
-//this.documentNumber = 'PRI18000340';
-//this.partnerDocumentNumber = '18461/18';
-  }
+   String? partnerDocumentNumber;
+   DateTime? partnerDocumentDate;
+   DateTime? partnerDocumentDueDatePayment;
+   double? invoicePrice;
+   double? discountRate;
+   double? discountAmount;
+   double? purchasePrice;
+   double? purchaseAmount;
+   double? vatPurchaseAmount;
+   double? partnerDocumentAmount;
+   bool? reimbursement;
+   double? retailMargin;
+   double? retailPrice;
+   double? fzoRefPrice;
 
-  String? partnerDocumentNumber;
-  late LocalDate partnerDocumentDate;
-  late LocalDate partnerDocumentDueDatePayment;
-  late double invoicePrice;
-  late double discountRate;
-  late double discountAmount;
-  late double purchasePrice;
-  late double purchaseAmount;
-  late double vatPurchaseAmount;
-  late double partnerDocumentAmount;
-  late bool reimbursement;
-  late double retailMargin;
-  late double retailPrice;
-  late double fzoRefPrice;
+   DateTime? filterStartPartnerDocumentDate;
+   DateTime? filterEndPartnerDocumentDate;
+   DateTime? filterStartPartnerDocumentDueDatePayment;
+   DateTime? filterEndPartnerDocumentDueDatePayment;
 
-  // PartnerDto counterParty;
-  late String counterPartyPartnerId;
-  late String counterPartyPartnerName;
+  Invoice({this.partnerDocumentNumber, this.partnerDocumentDate, this.partnerDocumentDueDatePayment, this.invoicePrice,
+  this.discountRate, this.discountAmount, this.purchaseAmount, this.purchasePrice, this.vatPurchaseAmount,
+  this.partnerDocumentAmount, this.retailMargin, this.reimbursement, this.retailPrice, this.fzoRefPrice, this.filterEndPartnerDocumentDate,
+  this.filterEndPartnerDocumentDueDatePayment, this.filterStartPartnerDocumentDate, this.filterStartPartnerDocumentDueDatePayment});
 
-   LocalDate? filterStartPartnerDocumentDate;
-  late LocalDate filterEndPartnerDocumentDate;
-  late LocalDate filterStartPartnerDocumentDueDatePayment;
-  late LocalDate filterEndPartnerDocumentDueDatePayment;
+  factory Invoice.fromJson(Map<String,dynamic> data) => _$InvoiceFromJson(data);
 
-  //  factory Invoice.fromJson(Map<String, dynamic> json) => _$InvoiceFromJson(json);
-  //Map<String, dynamic> toJson() => _$InvoiceToJson(this);
+  Map<String,dynamic> toJson() => _$InvoiceToJson(this);
 
-  //factory Invoice([updates(InvoiceBuilder b)]) = _$Invoice;
-  static Serializer<Invoice> get serializer => _$invoiceSerializer;
-
-  static get _$invoiceSerializer => null;
-
-  factory Invoice.fromJson(Map<String, dynamic> json) => Invoice(
-        //partnerDocumentNumber: json["partnerDocumentNumber"],
-      //invoicePrice: json["invoicePrice"],
-      );
-
-  Map<String, dynamic> toJson() => {
-       // "partnerDocumentNumber": partnerDocumentNumber,
-      };
 }

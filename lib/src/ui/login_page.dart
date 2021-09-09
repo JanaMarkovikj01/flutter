@@ -1,14 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:phabis_flutter/src/ui/search_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'home_page.dart';
 import 'invoice_page.dart';
 import 'widget/my_text_form_field.dart';
 import 'widget/my_button.dart';
-import '../bloc/invoice_bloc.dart';
-
 class LoginPage extends StatefulWidget {
   static String tag = 'login-page';
 
@@ -57,8 +55,8 @@ class _LoginPageState extends State<LoginPage> {
               shrinkWrap: true,
               padding: EdgeInsets.only(left: 24.0, right: 24.0),
               children: <Widget>[
-                Row(mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[logo]),
+               /* Row(mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[logo]),*/
                 SizedBox(height: 48.0),
                 username,
                 SizedBox(height: 8.0),
@@ -80,8 +78,20 @@ class _LoginPageState extends State<LoginPage> {
       }, onError: (e) => _loginErrorDialog());
     }
   }*/
-  void submit(BuildContext context){
-    Navigator.of(context).pushNamed(InvoicePage.tag);
+  void submit(BuildContext context) {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+
+      if(_username != 'admin' || _password != 'admin1')
+        _loginErrorDialog();
+      else {
+        _rememberUsernameAndPassword();
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MySearchPage()),
+        );
+      }
+    }
   }
 
   Future<void> _loginErrorDialog() async {

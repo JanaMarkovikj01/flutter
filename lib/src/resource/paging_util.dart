@@ -42,17 +42,6 @@ class PageRequestByExample<E> {
 }
 
 
-class PageRequestByExample2<E>{
-
-  LazyLoadEvent lazyLoadEvent;
-
-  PageRequestByExample2( this.lazyLoadEvent);
-
-  Map<String, dynamic> toJson() =>
-      { 'lazyLoadEvent': lazyLoadEvent};
-}
-
-
 class PageResponse<T> {
   final int totalPages;
   final int totalElements;

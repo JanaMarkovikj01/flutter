@@ -7,12 +7,10 @@ InvoiceApiProvider apiProvider = InvoiceApiProvider();
 
 class NetworkUtil {
   static Dio _dio = new Dio();
-  String newToken = apiProvider.fetchToken().toString();
-
   static NetworkUtil _instance = NetworkUtil.internal();
 
+  static String newToken='';
   factory NetworkUtil() => _instance;
-
   static final String baseUrl = 'https://artemisoft.dyndns-work.com:8443';
   static final String allInvoicesUrl= baseUrl + '/phabis2-turnover/api/turnoverInvoice/page';
 

@@ -1,150 +1,168 @@
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:phabis_flutter/src/model/TurnoverInvoiceDto.dart';
 
-import '../model/formatter.dart';
-
-import '../resource/repository.dart';
-
-import './widget/my_text_form_field.dart';
-import './home_page.dart';
-
-@immutable
-class SearchPage extends StatefulWidget {
-  static String tag = 'search-page';
+class MySearchPage extends StatefulWidget implements PreferredSizeWidget {
   @override
-  State createState() => SearchPageState();
+  Size get preferredSize {
+    return new Size.fromHeight(20.0);
+  }
+
+  @override
+  _MySearchPageState createState() => new _MySearchPageState();
 }
 
-class SearchPageState extends State<SearchPage> {
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+class _MySearchPageState extends State<MySearchPage> {
+  Widget appBarTitle = new Text(
+    "Search Page",
+    style: new TextStyle(color: Colors.white),
+  );
+  Icon icon = new Icon(
+    Icons.search,
+    color: Colors.white,
+  );
+  final globalKey = new GlobalKey<ScaffoldState>();
+  final TextEditingController _controller = new TextEditingController();
+  late List<dynamic> _list;
+  late bool _isSearching;
+  String _searchText = "";
+  List searchresult = [];
+
+  _MySearchPageState() {
+    _controller.addListener(() {
+      if (_controller.text.isEmpty) {
+        setState(() {
+          _isSearching = false;
+          _searchText = "";
+        });
+      } else {
+        setState(() {
+          _isSearching = true;
+          _searchText = _controller.text;
+        });
+      }
+    });
   }
-  /*
-  final _formKey = GlobalKey<FormState>();
-  final _repository = Repository();
- static Invoice example = Invoice();
-
-
-  TextEditingController _invoiceController = TextEditingController();
-  TextEditingController _workDayController = TextEditingController();
-  TextEditingController _fromController = TextEditingController();
-  TextEditingController _toController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-
-    _invoiceController.text = example.toString();
+    _isSearching = false;
+    values();
   }
 
-  @override
-  void dispose() {
-    _invoiceController.dispose();
-    _workDayController.dispose();
-    _fromController.dispose();
-    _toController.dispose();
-
-    super.dispose();
+  void values() {
+    _list = [];
+    _list.add("Zeus");
+    _list.add("Poseidon");
+    _list.add("Dionysus");
+    _list.add("Hades");
+    _list.add("Persephone");
+    _list.add("Demeter");
+    _list.add("Cronus");
+    _list.add("Rhea");
   }
 
   @override
   Widget build(BuildContext context) {
-
-    final invoice = TypeAheadFormField<dynamic>(
-      textFieldConfiguration: TextFieldConfiguration(
-          decoration: MyInputDecoration(hintText: 'фактура'),
-          controller: _invoiceController),
-      suggestionsCallback: (pattern) => _repository.autocompleteInvoice(pattern),
-      itemBuilder: (BuildContext context, dynamic invoice) => ListTile(title: Text((invoice as Invoice).toString())),
-      transitionBuilder: (context, suggestionsBox, controller) =>
-      suggestionsBox,
-      noItemsFoundBuilder: (_) => Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Text("нема резултати"),
-      ),
-      onSuggestionSelected: (p) {
-        Invoice invoice = p as Invoice;
-        _invoiceController.text = invoice.toString();
-      },
-    );
-    final workDay = DateTimePickerFormField(
-      controller: _workDayController,
-      format: formatter,
-      dateOnly: true,
-      decoration: InputDecoration(labelText: 'ден'),
-      onChanged: (dt) => setState(() =>
-          selectWorkDay(dt)),
-    );
-    final from = DateTimePickerFormField(
-      controller: _fromController,
-      initialValue: example.partnerDocumentDate,
-      format: formatter,
-      dateOnly: true,
-      decoration: InputDecoration(labelText: 'од'),
-      onChanged: (dt) => setState(() =>
-          example = example.rebuild((t) => t..filterTreatmentDateFrom = dt?.toUtc())),
-    );
-    final to = DateTimePickerFormField(
-      controller: _toController,
-      initialValue: example.partnerDocumentDueDatePayment,
-      format: formatter,
-      dateOnly: true,
-      decoration: InputDecoration(labelText: 'до'),
-        onChanged: (dt) => setState(() =>
-          example = example.rebuild((t) => t..filterTreatmentDateTo = dt?.toUtc())),
-    );
-
     return new Scaffold(
-        appBar: new AppBar(
-          title: new Text("Пребарување"),
-          actions: <Widget>[
-            new IconButton(
-                icon: const Icon(Icons.clear),
-                onPressed: () {
-                  setState(() => _resetFields());
-                }),
-            new IconButton(
-                icon: const Icon(Icons.search),
-                onPressed: () {
-                  if (_invoiceController.text.isEmpty) {
-                    var builder = example.toBuilder();
-                    builder.patient = null;
-                    example = builder.build();
-                  }
-                  _formKey.currentState!.save();
-                  Navigator.of(context).popAndPushNamed(HomePage.tag);
-                })
-          ],
+        key: globalKey,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(100.0),
+          child: buildAppBar(context),
         ),
-        body: Form(
-            key: _formKey,
-            child: ListView(
-              shrinkWrap: true,
-              padding: EdgeInsets.only(left: 24.0, right: 24.0),
-              children: <Widget>[
-                new ListTile(leading: const Icon(Icons.photo_album), title: invoice),
-                new ListTile(leading: const Icon(Icons.today), title: workDay),
-                new ListTile(leading: const Icon(Icons.today), title: from),
-                new ListTile(leading: const Icon(Icons.today), title: to),
-              ],
-            ))
-    );
+        body: new Container(
+          child: new Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              new Flexible(
+                  child: searchresult.length != 0 || _controller.text.isNotEmpty
+                      ? new ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: searchresult.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            String listData = searchresult[index];
+                            return new ListTile(
+                              title: new Text(listData.toString()),
+                            );
+                          },
+                        )
+                      : new ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: _list.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            String listData = _list[index];
+                            return new ListTile(
+                              title: new Text(listData.toString()),
+                            );
+                          },
+                        ))
+            ],
+          ),
+        ));
   }
 
-
-  void _resetFields() {
-    example = Invoice();
-    _formKey.currentState!.reset();
-    _invoiceController.clear();
-    _workDayController.clear();
-    _fromController.clear();
-    _toController.clear();
+  Widget buildAppBar(BuildContext context) {
+    return new AppBar(centerTitle: true, title: appBarTitle, actions: <Widget>[
+      new IconButton(
+        icon: icon,
+        onPressed: () {
+          setState(() {
+            if (this.icon.icon == Icons.search) {
+              this.icon = new Icon(
+                Icons.close,
+                color: Colors.white,
+              );
+              this.appBarTitle = new TextField(
+                controller: _controller,
+                style: new TextStyle(
+                  color: Colors.white,
+                ),
+                decoration: new InputDecoration(
+                    prefixIcon: new Icon(Icons.search, color: Colors.white),
+                    hintText: "Search...",
+                    hintStyle: new TextStyle(color: Colors.white)),
+                onChanged: searchOperation,
+              );
+              _handleSearchStart();
+            } else {
+              _handleSearchEnd();
+            }
+          });
+        },
+      ),
+    ]);
   }
-  
-  
-  */
+
+  void _handleSearchStart() {
+    setState(() {
+      _isSearching = true;
+    });
+  }
+
+  void _handleSearchEnd() {
+    setState(() {
+      this.icon = new Icon(
+        Icons.search,
+        color: Colors.white,
+      );
+      this.appBarTitle = new Text(
+        "Search Sample",
+        style: new TextStyle(color: Colors.white),
+      );
+      _isSearching = false;
+      _controller.clear();
+    });
+  }
+
+  void searchOperation(String searchText) {
+    searchresult.clear();
+    if (_isSearching != null) {
+      for (int i = 0; i < _list.length; i++) {
+        String data = _list[i];
+        if (data.toLowerCase().contains(searchText.toLowerCase())) {
+          searchresult.add(data);
+        }
+      }
+    }
+  }
 }
