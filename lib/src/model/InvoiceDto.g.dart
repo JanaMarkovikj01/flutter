@@ -9,12 +9,6 @@ part of 'InvoiceDto.dart';
 Invoice _$InvoiceFromJson(Map<String, dynamic> json) {
   return Invoice(
     partnerDocumentNumber: json['partnerDocumentNumber'] as String?,
-    partnerDocumentDate: json['partnerDocumentDate'] == null
-        ? null
-        : DateTime.parse(json['partnerDocumentDate'] as String),
-    partnerDocumentDueDatePayment: json['partnerDocumentDueDatePayment'] == null
-        ? null
-        : DateTime.parse(json['partnerDocumentDueDatePayment'] as String),
     invoicePrice: (json['invoicePrice'] as num?)?.toDouble(),
     discountRate: (json['discountRate'] as num?)?.toDouble(),
     discountAmount: (json['discountAmount'] as num?)?.toDouble(),
@@ -26,32 +20,12 @@ Invoice _$InvoiceFromJson(Map<String, dynamic> json) {
     reimbursement: json['reimbursement'] as bool?,
     retailPrice: (json['retailPrice'] as num?)?.toDouble(),
     fzoRefPrice: (json['fzoRefPrice'] as num?)?.toDouble(),
-    filterEndPartnerDocumentDate: json['filterEndPartnerDocumentDate'] == null
-        ? null
-        : DateTime.parse(json['filterEndPartnerDocumentDate'] as String),
-    filterEndPartnerDocumentDueDatePayment:
-        json['filterEndPartnerDocumentDueDatePayment'] == null
-            ? null
-            : DateTime.parse(
-                json['filterEndPartnerDocumentDueDatePayment'] as String),
-    filterStartPartnerDocumentDate:
-        json['filterStartPartnerDocumentDate'] == null
-            ? null
-            : DateTime.parse(json['filterStartPartnerDocumentDate'] as String),
-    filterStartPartnerDocumentDueDatePayment:
-        json['filterStartPartnerDocumentDueDatePayment'] == null
-            ? null
-            : DateTime.parse(
-                json['filterStartPartnerDocumentDueDatePayment'] as String),
     documentType:
         _$enumDecodeNullable(_$DocumentTypeEnumMap, json['documentType']),
     id: json['id'] as String?,
     documentNumber: json['documentNumber'] as String?,
     turnoverType:
         _$enumDecodeNullable(_$TurnoverTypeEnumMap, json['turnoverType']),
-    documentDate: json['documentDate'] == null
-        ? null
-        : DateTime.parse(json['documentDate'] as String),
     quantity: (json['quantity'] as num?)?.toDouble(),
     vatRate: (json['vatRate'] as num?)?.toDouble(),
     divide: (json['divide'] as num?)?.toDouble(),
@@ -65,7 +39,6 @@ Map<String, dynamic> _$InvoiceToJson(Invoice instance) => <String, dynamic>{
       'id': instance.id,
       'documentType': _$DocumentTypeEnumMap[instance.documentType],
       'documentNumber': instance.documentNumber,
-      'documentDate': instance.documentDate?.toIso8601String(),
       'quantity': instance.quantity,
       'vatRate': instance.vatRate,
       'turnoverType': _$TurnoverTypeEnumMap[instance.turnoverType],
@@ -74,9 +47,6 @@ Map<String, dynamic> _$InvoiceToJson(Invoice instance) => <String, dynamic>{
       'groupTotal': instance.groupTotal,
       'groupTopRecord': instance.groupTopRecord,
       'partnerDocumentNumber': instance.partnerDocumentNumber,
-      'partnerDocumentDate': instance.partnerDocumentDate?.toIso8601String(),
-      'partnerDocumentDueDatePayment':
-          instance.partnerDocumentDueDatePayment?.toIso8601String(),
       'invoicePrice': instance.invoicePrice,
       'discountRate': instance.discountRate,
       'discountAmount': instance.discountAmount,
@@ -88,14 +58,6 @@ Map<String, dynamic> _$InvoiceToJson(Invoice instance) => <String, dynamic>{
       'retailMargin': instance.retailMargin,
       'retailPrice': instance.retailPrice,
       'fzoRefPrice': instance.fzoRefPrice,
-      'filterStartPartnerDocumentDate':
-          instance.filterStartPartnerDocumentDate?.toIso8601String(),
-      'filterEndPartnerDocumentDate':
-          instance.filterEndPartnerDocumentDate?.toIso8601String(),
-      'filterStartPartnerDocumentDueDatePayment':
-          instance.filterStartPartnerDocumentDueDatePayment?.toIso8601String(),
-      'filterEndPartnerDocumentDueDatePayment':
-          instance.filterEndPartnerDocumentDueDatePayment?.toIso8601String(),
     };
 
 K _$enumDecode<K, V>(

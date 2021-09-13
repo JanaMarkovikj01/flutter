@@ -1,13 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'dart:async';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phabis_flutter/src/ui/search_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'home_page.dart';
 import 'invoice_page.dart';
-import 'widget/my_text_form_field.dart';
 import 'widget/my_button.dart';
+import 'widget/my_text_form_field.dart';
+
 class LoginPage extends StatefulWidget {
   static String tag = 'login-page';
 
@@ -31,23 +31,29 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final logo = Image.asset(('./assets/artemisoft.png'),
-        height: 33.0 ,fit: BoxFit.fitHeight,);
+    final logo = Image.asset(
+      ('./assets/artemisoft.png'),
+      height: 33.0,
+      fit: BoxFit.fitHeight,
+    );
     final username = MyTextFormField(
       label: 'корисничко име',
       controller: _usernameTextController,
       validator: (val) => val!.isEmpty ? 'внесете го корисничкото име' : null,
       onSaved: (val) => this._username = val!,
-      autofocus: true, inputFormatter: [],
+      autofocus: true,
+      inputFormatter: [],
     );
     final password = MyTextFormField(
       label: 'шифра',
       controller: _passwordTextController,
       obscureText: true,
       validator: (val) => val!.isEmpty ? 'внесете ја шифрата' : null,
-      onSaved: (val) => this._password = val!, inputFormatter: [],
+      onSaved: (val) => this._password = val!,
+      inputFormatter: [],
     );
-    final loginButton = MyButton(label: 'ПРИЈАВУВАЊЕ', onPressed: () => submit(context));
+    final loginButton =
+        MyButton(label: 'ПРИЈАВУВАЊЕ', onPressed: () => submit(context));
 
     return new Center(
         child: Form(
@@ -56,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
               shrinkWrap: true,
               padding: EdgeInsets.only(left: 24.0, right: 24.0),
               children: <Widget>[
-               /* Row(mainAxisAlignment: MainAxisAlignment.end,
+                /* Row(mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[logo]),*/
                 SizedBox(height: 48.0),
                 username,
@@ -72,14 +78,14 @@ class _LoginPageState extends State<LoginPage> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
-      if(_username != 'admin' || _password != 'admin1')
+      if (_username != 'admin' || _password != 'admin1')
         _loginErrorDialog();
       else {
         _rememberUsernameAndPassword();
 
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomePage()),
+          MaterialPageRoute(builder: (context) => InvoicePage()),
         );
       }
     }

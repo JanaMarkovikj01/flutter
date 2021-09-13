@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:phabis_flutter/src/model/InvoiceDto.dart';
-import 'package:phabis_flutter/src/model/TurnoverInvoiceDto.dart';
 import 'package:phabis_flutter/src/resource/paging_util.dart';
 import 'package:phabis_flutter/src/resource/token.dart';
 
@@ -20,9 +19,6 @@ class InvoiceApiProvider {
       headers: headers,
       body: body,
     );
-    //print("Response Status: ${response.statusCode}");
-    //print("Response Body: ${response.body}");
-
     Map<String, dynamic> jsonData =
         jsonDecode(response.body) as Map<String, dynamic>;
 
@@ -35,13 +31,11 @@ class InvoiceApiProvider {
 
   Future<PageResponse<Invoice>> fetchInvoices(
       Invoice invoice, int first, int rows) async {
-
     LazyLoadEvent lazyLoadEvent = LazyLoadEvent(first, rows);
-
     //empty invoice
     var example = Invoice();
-   PageRequestByExample req = PageRequestByExample(example, lazyLoadEvent);
-   Map<String, dynamic> data = lazyLoadEvent.toJson();
+    PageRequestByExample req = PageRequestByExample(example, lazyLoadEvent);
+    Map<String, dynamic> data = lazyLoadEvent.toJson();
 
     return await NetworkUtil.internal()
         .post(invoiceListUrl, data: req, options: options)
@@ -51,13 +45,15 @@ class InvoiceApiProvider {
         throw new Exception("Не може да се добијат податоци од серверот");
       }
       var data = response.data;
-      print("FETCH INVOICES DATA: " + data.toString());
+      print("FETCH INVOICES DATA: " + data.toString().substring(0, 205));
 
-      String jsonContent = jsonDecode(data['content']);
-      print("CONTENT:" + jsonContent);
+      List content = data["content"];
+      List<Invoice> invoices = [];
+      for (int i = 0; i < content.length; i++) {
+        Invoice invoice = Invoice.fromJson(content[i]);
+        invoices.add(invoice);
+      }
 
-      List<Invoice> dataSerialize= jsonDecode(data['content']);
-      List<Invoice> invoices = dataSerialize.map((dataSerialize) => Invoice.fromJson(data)).toList();
       return PageResponse<Invoice>(
           data["totalPages"], data["totalElements"], invoices!);
     });
@@ -78,7 +74,8 @@ class InvoiceApiProvider {
         .post(invoiceCompleteUrl, data: autocompleteQuery, options: options)
         .then((Response response) {
       List<dynamic> data = jsonDecode(response.data);
-      List<Invoice> invoices = data.map((data) => Invoice.fromJson(data)).toList();
+      List<Invoice> invoices =
+          data.map((data) => Invoice.fromJson(data)).toList();
       return invoices;
     });
   }
@@ -89,8 +86,7 @@ class InvoiceApiProvider {
       "j_password": password,
       "submit": "Login"
     };
-    Options options = Options(
-        contentType: "application/x-www-form-urlencoded");
+    Options options = Options(contentType: "application/x-www-form-urlencoded");
     return await NetworkUtil.internal()
         .post(loginUrl, data: data, options: options)
         .then((Response response) {
@@ -100,10 +96,9 @@ class InvoiceApiProvider {
       if (statusCode == null || statusCode < 200 || statusCode > 400) {
         throw new Exception(
             "${headers.value("error")}: ${headers.value("message")}. "
-                "Погрешно корисничко име или шифра.");
+            "Погрешно корисничко име или шифра.");
       }
       return true;
     });
   }
-
 }

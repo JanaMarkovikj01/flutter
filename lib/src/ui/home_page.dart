@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:phabis_flutter/src/model/InvoiceDto.dart';
-import 'package:phabis_flutter/src/model/TurnoverInvoiceDto.dart';
 import 'package:phabis_flutter/src/resource/invoice_api_proivder.dart';
 import 'package:phabis_flutter/src/resource/paging_util.dart';
 
@@ -17,7 +16,7 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-Future<String> fetchToken() async{
+Future<String> fetchToken() async {
   return apiProvider.fetchToken();
 }
 
@@ -26,8 +25,6 @@ Future<PageResponse<Invoice>> fetchData() async {
 }
 
 class _HomePageState extends State<HomePage> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +38,7 @@ class _HomePageState extends State<HomePage> {
                 String s = snapshot.data.toString();
                 return Text(s);
               } else if (snapshot.hasError) {
+                print(snapshot.error);
                 return Text('${snapshot.error}');
               } else {
                 return CircularProgressIndicator();

@@ -1,31 +1,78 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:phabis_flutter/src/model/InvoiceDto.dart';
-import 'package:phabis_flutter/src/model/TurnoverInvoiceDto.dart';
+import 'package:phabis_flutter/src/resource/paging_util.dart';
+import 'package:phabis_flutter/src/ui/home_page.dart';
+import 'package:phabis_flutter/src/ui/search_page.dart';
 
+int index = 0;
 class InvoicePage extends StatefulWidget {
   static String tag = 'invoice-page';
+
   const InvoicePage({Key? key}) : super(key: key);
 
   @override
   _InvoicePageState createState() => _InvoicePageState();
 }
 
+Invoice invoice = Invoice();
+
+Future<void> getInvoiceData(int i) async {
+  PageResponse<Invoice> response = await fetchData();
+  invoice = response.content[i];
+}
+
 class _InvoicePageState extends State<InvoicePage> {
-  Invoice invoice = Invoice();
+  void ButtonClick() {
+    setState(() {
+      index++;
+      getInvoiceData(index);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    index = 0;
+    getInvoiceData(index);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: Text('Invoice page'),
+    return Material(
+      type: MaterialType.transparency,
+      child: Container(
+        color: Colors.white,
+        child: Column(
+          children: [
+            AppBar(
+              title: Text('Invoice Page'),
+            ),
+            InvoiceCard(invoice),
+            TextButton(
+                onPressed: () {
+                  ButtonClick();
+                },
+                child: Text('Next invoice',
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20))),
+            TextButton(
+                onPressed: () { Navigator.push(context,MaterialPageRoute(builder: (context) => MySearchPage()),);},
+                child: Text('Go to search page',
+                    style:
+                    TextStyle(fontWeight: FontWeight.bold, fontSize: 20))),
+
+          ],
         ),
-        body: InvoiceCard(invoice));
+      ),
+    );
   }
 }
 
-void navigate() { print("Pressed");}
+void navigate() {
+  print("Pressed");
+}
+
 var padding = Padding(padding: EdgeInsets.all(12));
 
 Widget InvoiceCard(Invoice invoice) {
@@ -41,7 +88,6 @@ Widget InvoiceCard(Invoice invoice) {
               color: Colors.black,
               width: 3,
             ),
-            //borderRadius: BorderRadius.circular(10.0),
           ),
           child: Column(
             children: [
@@ -56,10 +102,13 @@ Widget InvoiceCard(Invoice invoice) {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Број на фактура: ', style: TextStyle(fontSize: 13),
+                        'Број на фактура: ',
+                        style: TextStyle(fontSize: 13),
                       ),
                       Text(
-                        invoice.partnerDocumentNumber.toString(),
+                        invoice.documentNumber.toString(),
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 15),
                       ),
@@ -82,6 +131,8 @@ Widget InvoiceCard(Invoice invoice) {
                       Padding(padding: EdgeInsets.all(5)),
                       Text(
                         invoice.purchaseAmount.toString(),
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 15),
                       ),
@@ -100,8 +151,7 @@ Widget InvoiceCard(Invoice invoice) {
                     ),
                     child: Text(
                       'Износ без ДДВ',
-                      style:
-                          TextStyle( fontSize: 13),
+                      style: TextStyle(fontSize: 13),
                     ),
                   ),
                   padding,
@@ -114,6 +164,8 @@ Widget InvoiceCard(Invoice invoice) {
                     ),
                     child: Text(
                       invoice.retailPrice.toString(),
+                      softWrap: false,
+                      overflow: TextOverflow.ellipsis,
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
@@ -133,8 +185,7 @@ Widget InvoiceCard(Invoice invoice) {
                     ),
                     child: Text(
                       'ДДВ %',
-                      style:
-                          TextStyle( fontSize: 13),
+                      style: TextStyle(fontSize: 13),
                     ),
                   ),
                   padding,
@@ -147,6 +198,8 @@ Widget InvoiceCard(Invoice invoice) {
                     ),
                     child: Text(
                       invoice.retailMargin.toString(),
+                      softWrap: false,
+                      overflow: TextOverflow.ellipsis,
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
@@ -166,6 +219,8 @@ Widget InvoiceCard(Invoice invoice) {
                       Padding(padding: EdgeInsets.all(5)),
                       Text(
                         invoice.invoicePrice.toString(),
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 15),
                       ),
@@ -173,13 +228,7 @@ Widget InvoiceCard(Invoice invoice) {
                   )),
             ],
           )),
-      padding,
-      TextButton(
-          onPressed: () => navigate(),
-          style: TextButton.styleFrom(
-              primary: Colors.white, backgroundColor: Colors.blue),
-          child: Text('Go back',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))),
+      padding
     ]),
   );
 }
