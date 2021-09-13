@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:phabis_flutter/src/model/InvoiceDto.dart';
 import 'package:phabis_flutter/src/model/TurnoverInvoiceDto.dart';
 
 class InvoicePage extends StatefulWidget {

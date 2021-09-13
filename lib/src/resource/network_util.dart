@@ -4,26 +4,32 @@ import 'package:dio/dio.dart';
 import 'package:phabis_flutter/src/resource/invoice_api_proivder.dart';
 
 InvoiceApiProvider apiProvider = InvoiceApiProvider();
-
+late String token;
+Future<void> awaitToken() async{
+  token = await apiProvider.fetchToken();
+}
 class NetworkUtil {
   static Dio _dio = new Dio();
   static NetworkUtil _instance = NetworkUtil.internal();
 
-  static String newToken='';
+  static String newToken = token;
+
   factory NetworkUtil() => _instance;
   static final String baseUrl = 'https://artemisoft.dyndns-work.com:8443';
   static final String allInvoicesUrl= baseUrl + '/phabis2-turnover/api/turnoverInvoice/page';
 
   NetworkUtil.internal() {
+    awaitToken();
+    print("NETWORK UTIL NEW TOKEN:" + newToken);
     _dio.interceptors.clear();
     _dio.options.baseUrl = allInvoicesUrl;
     _dio.interceptors
         .add(InterceptorsWrapper(onRequest: (RequestOptions options) {
       options.headers["Authorization"] = "Bearer " + newToken;
+      options.headers["X-TenantId"] = "local";
+      options.headers["Content-type"] = "application/json";
       return options;
     }, onResponse: (Response response) {
-          print(response);
-      // Do something with response data
       return response; // continue
     }, onError: (DioError e) {
       print('error interceptor');

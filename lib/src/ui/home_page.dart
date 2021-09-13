@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:phabis_flutter/src/model/InvoiceDto.dart';
 import 'package:phabis_flutter/src/model/TurnoverInvoiceDto.dart';
 import 'package:phabis_flutter/src/resource/invoice_api_proivder.dart';
 import 'package:phabis_flutter/src/resource/paging_util.dart';

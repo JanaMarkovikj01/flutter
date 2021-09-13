@@ -1,8 +1,8 @@
 import 'dart:core';
 import 'package:json_annotation/json_annotation.dart';
 import 'TurnoverDto.dart';
-part'TurnoverInvoiceDto.g.dart';
-
+//part'TurnoverInvoiceDto.g.dart';
+/*
 @JsonSerializable()
 class Invoice extends TurnoverDto{
 
@@ -31,8 +31,9 @@ class Invoice extends TurnoverDto{
   this.partnerDocumentAmount, this.retailMargin, this.reimbursement, this.retailPrice, this.fzoRefPrice, this.filterEndPartnerDocumentDate,
   this.filterEndPartnerDocumentDueDatePayment, this.filterStartPartnerDocumentDate, this.filterStartPartnerDocumentDueDatePayment});
 
-  factory Invoice.fromJson(Map<String,dynamic> data) => _$InvoiceFromJson(data);
+  //factory Invoice.fromJson(Map<String,dynamic> data) => _$InvoiceFromJson(data);
 
-  Map<String,dynamic> toJson() => _$InvoiceToJson(this);
+  //Map<String,dynamic> toJson() => _$InvoiceToJson(this);
 
 }
+*/

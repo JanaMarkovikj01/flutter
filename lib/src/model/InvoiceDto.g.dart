@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'TurnoverInvoiceDto.dart';
+part of 'InvoiceDto.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -43,26 +43,32 @@ Invoice _$InvoiceFromJson(Map<String, dynamic> json) {
             ? null
             : DateTime.parse(
                 json['filterStartPartnerDocumentDueDatePayment'] as String),
-  )
-    ..id = json['id'] as String?
-    ..documentNumber = json['documentNumber'] as String?
-    ..documentDate = json['documentDate'] == null
+    documentType:
+        _$enumDecodeNullable(_$DocumentTypeEnumMap, json['documentType']),
+    id: json['id'] as String?,
+    documentNumber: json['documentNumber'] as String?,
+    turnoverType:
+        _$enumDecodeNullable(_$TurnoverTypeEnumMap, json['turnoverType']),
+    documentDate: json['documentDate'] == null
         ? null
-        : DateTime.parse(json['documentDate'] as String)
-    ..quantity = (json['quantity'] as num?)?.toDouble()
-    ..vatRate = (json['vatRate'] as num?)?.toDouble()
-    ..divide = (json['divide'] as num?)?.toDouble()
-    ..confirmed = json['confirmed'] as bool?
-    ..groupTotal = (json['groupTotal'] as num?)?.toDouble()
-    ..groupTopRecord = json['groupTopRecord'] as bool?;
+        : DateTime.parse(json['documentDate'] as String),
+    quantity: (json['quantity'] as num?)?.toDouble(),
+    vatRate: (json['vatRate'] as num?)?.toDouble(),
+    divide: (json['divide'] as num?)?.toDouble(),
+    confirmed: json['confirmed'] as bool?,
+    groupTopRecord: json['groupTopRecord'] as bool?,
+    groupTotal: (json['groupTotal'] as num?)?.toDouble(),
+  );
 }
 
 Map<String, dynamic> _$InvoiceToJson(Invoice instance) => <String, dynamic>{
       'id': instance.id,
+      'documentType': _$DocumentTypeEnumMap[instance.documentType],
       'documentNumber': instance.documentNumber,
       'documentDate': instance.documentDate?.toIso8601String(),
       'quantity': instance.quantity,
       'vatRate': instance.vatRate,
+      'turnoverType': _$TurnoverTypeEnumMap[instance.turnoverType],
       'divide': instance.divide,
       'confirmed': instance.confirmed,
       'groupTotal': instance.groupTotal,
@@ -91,3 +97,66 @@ Map<String, dynamic> _$InvoiceToJson(Invoice instance) => <String, dynamic>{
       'filterEndPartnerDocumentDueDatePayment':
           instance.filterEndPartnerDocumentDueDatePayment?.toIso8601String(),
     };
+
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
+  }
+
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
+}
+
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
+  dynamic source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
+}
+
+const _$DocumentTypeEnumMap = {
+  DocumentType.FISCAL: 'FISCAL',
+  DocumentType.FISCALSTOR: 'FISCALSTOR',
+  DocumentType.INVOICEIN: 'INVOICEIN',
+  DocumentType.INVOICEOUT: 'INVOICEOUT',
+  DocumentType.INVOICEOUTSTOR: 'INVOICEOUTSTOR',
+  DocumentType.INVOICESTOR: 'INVOICESTOR',
+  DocumentType.INVOICEML: 'INVOICEML',
+  DocumentType.INVOICEINT: 'INVOICEINT',
+  DocumentType.INVOICEEL: 'INVOICEEL',
+  DocumentType.INVENTORY: 'INVENTORY',
+  DocumentType.TRANSFER: 'TRANSFER',
+  DocumentType.PRICECHNG: 'PRICECHNG',
+  DocumentType.INTERNALOUT: 'INTERNALOUT',
+  DocumentType.INTERNALIN: 'INTERNALIN',
+  DocumentType.INTERNALREIMBIN: 'INTERNALREIMBIN',
+  DocumentType.INTERNALREIMBOUT: 'INTERNALREIMBOUT',
+  DocumentType.DFI: 'DFI',
+};
+
+const _$TurnoverTypeEnumMap = {
+  TurnoverType.C: 'C',
+  TurnoverType.R: 'R',
+  TurnoverType.O: 'O',
+};

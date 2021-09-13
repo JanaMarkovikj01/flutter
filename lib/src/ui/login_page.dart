@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:phabis_flutter/src/ui/search_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'home_page.dart';
 import 'invoice_page.dart';
 import 'widget/my_text_form_field.dart';
 import 'widget/my_button.dart';
@@ -67,17 +68,6 @@ class _LoginPageState extends State<LoginPage> {
             )));
   }
 
-  /*void submit(BuildContext context) {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      bloc.login(_username, _password).then((bool res) {
-        if (res) {
-          _rememberUsernameAndPassword();
-          Navigator.of(context).pushNamed(HomePage.tag);
-        }
-      }, onError: (e) => _loginErrorDialog());
-    }
-  }*/
   void submit(BuildContext context) {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
@@ -86,9 +76,10 @@ class _LoginPageState extends State<LoginPage> {
         _loginErrorDialog();
       else {
         _rememberUsernameAndPassword();
+
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => MySearchPage()),
+          MaterialPageRoute(builder: (context) => HomePage()),
         );
       }
     }

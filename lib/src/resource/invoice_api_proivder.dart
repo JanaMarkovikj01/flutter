@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
+import 'package:phabis_flutter/src/model/InvoiceDto.dart';
 import 'package:phabis_flutter/src/model/TurnoverInvoiceDto.dart';
 import 'package:phabis_flutter/src/resource/paging_util.dart';
 import 'package:phabis_flutter/src/resource/token.dart';
@@ -19,8 +20,8 @@ class InvoiceApiProvider {
       headers: headers,
       body: body,
     );
-    print("Response Status: ${response.statusCode}");
-    print("Response Body: ${response.body}");
+    //print("Response Status: ${response.statusCode}");
+    //print("Response Body: ${response.body}");
 
     Map<String, dynamic> jsonData =
         jsonDecode(response.body) as Map<String, dynamic>;
@@ -36,16 +37,11 @@ class InvoiceApiProvider {
       Invoice invoice, int first, int rows) async {
 
     LazyLoadEvent lazyLoadEvent = LazyLoadEvent(first, rows);
-   /* bool sameDay = false;
-    if (invoice.filterStartPartnerDocumentDate != null) {
-      if (invoice.filterStartPartnerDocumentDate ==
-          invoice.filterEndPartnerDocumentDate) {
-        sameDay = true;
-      }
-    }*/
-    var example = invoice.toJson();
-    print(example);
-    PageRequestByExample req = PageRequestByExample(example, lazyLoadEvent);
+
+    //empty invoice
+    var example = Invoice();
+   PageRequestByExample req = PageRequestByExample(example, lazyLoadEvent);
+   Map<String, dynamic> data = lazyLoadEvent.toJson();
 
     return await NetworkUtil.internal()
         .post(invoiceListUrl, data: req, options: options)
@@ -55,7 +51,10 @@ class InvoiceApiProvider {
         throw new Exception("Не може да се добијат податоци од серверот");
       }
       var data = response.data;
-      print(data);
+      print("FETCH INVOICES DATA: " + data.toString());
+
+      String jsonContent = jsonDecode(data['content']);
+      print("CONTENT:" + jsonContent);
 
       List<Invoice> dataSerialize= jsonDecode(data['content']);
       List<Invoice> invoices = dataSerialize.map((dataSerialize) => Invoice.fromJson(data)).toList();

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:phabis_flutter/src/model/InvoiceDto.dart';
+import 'package:phabis_flutter/src/resource/repository.dart';
+import 'package:phabis_flutter/src/ui/widget/my_text_form_field.dart';
 
 class MySearchPage extends StatefulWidget implements PreferredSizeWidget {
   @override
@@ -21,6 +25,7 @@ class _MySearchPageState extends State<MySearchPage> {
   );
   final globalKey = new GlobalKey<ScaffoldState>();
   final TextEditingController _controller = new TextEditingController();
+  final _repository = Repository();
   late List<dynamic> _list;
   late bool _isSearching;
   String _searchText = "";
@@ -63,6 +68,26 @@ class _MySearchPageState extends State<MySearchPage> {
 
   @override
   Widget build(BuildContext context) {
+    final invoice = TypeAheadFormField<dynamic>(
+      textFieldConfiguration: TextFieldConfiguration(
+          decoration: MyInputDecoration(hintText: 'пациент'),
+          controller: _controller),
+      suggestionsCallback: (pattern) =>
+          _repository.autocompleteInvoice(pattern),
+      itemBuilder: (BuildContext context, dynamic invoice) =>
+          ListTile(title: Text((invoice as Invoice).toString())),
+      transitionBuilder: (context, suggestionsBox, controller) =>
+          suggestionsBox,
+      noItemsFoundBuilder: (_) => Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Text("нема резултати"),
+      ),
+      onSuggestionSelected: (i) {
+        Invoice invoice = i as Invoice;
+        _controller.text = invoice.toString();
+      },
+    );
+
     return new Scaffold(
         key: globalKey,
         appBar: PreferredSize(

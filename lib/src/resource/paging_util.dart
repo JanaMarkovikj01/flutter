@@ -1,15 +1,17 @@
-import 'package:built_value/built_value.dart';
+
+import 'package:phabis_flutter/src/model/InvoiceDto.dart';
 
 class LazyLoadEvent {
-
- late int first;
+  late int first;
   late int rows;
-  late String sortField;
-  late int sortOrder;
-  late bool globalFilter = true;
+  late String? sortField;
+  late int? sortOrder;
+  late bool? globalFilter = true;
 
-  LazyLoadEvent(this.first, this.rows,
-   ); //   [this.sortField, sortOrder, this.globalFilter]
+  LazyLoadEvent(
+    this.first,
+    this.rows,[this.sortField, this.sortOrder, this.globalFilter]
+  ); //   [this.sortField, sortOrder, this.globalFilter]
 
   LazyLoadEvent.fromJson(Map<String, dynamic> json)
       : first = json['first'],
@@ -19,20 +21,17 @@ class LazyLoadEvent {
         globalFilter = json['globalFilters'];
 
   Map<String, dynamic> toJson() => {
-    'first': first,
-    'rows': rows,
-    'sortField': sortField,
-    'sortOrder': sortOrder,
-    'filters': null,
-    'globalFilter': globalFilter
-  };
-
-
+        'first': first,
+        'rows': rows,
+        'sortField': sortField,
+        'sortOrder': sortOrder,
+        'filters': null,
+        'globalFilter': globalFilter
+      };
 }
 
-class PageRequestByExample<E> {
-
-  E example;
+class PageRequestByExample{
+  Invoice example;
   LazyLoadEvent lazyLoadEvent;
 
   PageRequestByExample(this.example, this.lazyLoadEvent);
@@ -41,12 +40,10 @@ class PageRequestByExample<E> {
       {'example': example, 'lazyLoadEvent': lazyLoadEvent};
 }
 
-
-class PageResponse<T> {
+class PageResponse<T>{
   final int totalPages;
   final int totalElements;
   final List<T> content;
 
   PageResponse(this.totalPages, this.totalElements, this.content);
-
 }
