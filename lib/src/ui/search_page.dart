@@ -148,42 +148,27 @@ class _MySearchPageState extends State<MySearchPage> {
                           shrinkWrap: true,
                           itemCount: searchresult.length,
                           itemBuilder: (BuildContext context, int index) {
-                            String listData = searchresult[index].toString();
+                            String listData = searchresult[index].counterPartyPartnerName.toString();
                             String listData2 =
                             _list[index].purchaseAmount.toString();
+                            Invoice listInvoice = searchresult[index];
                             return new ListTile(
                               title: new Text(listData.toString()),
                               subtitle: new Text(listData2.toString()),
-                            );
-                          },
-                        )
-                      : new ListView.builder(
-                          controller: _scrollController,
-                          shrinkWrap: true,
-                          itemCount:
-                              _isLoading ? _list.length + 1 : _list.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            if (_list.length == index)
-                              return Center(child: CircularProgressIndicator());
-                            String listData1 =
-                                _list[index].counterPartyPartnerName.toString();
-                            Invoice listInvoice = _list[index];
-                            String listData2 =
-                                _list[index].purchaseAmount.toString();
-                            return new ListTile(
-                                title: new Text(listData1.toString()),
-                                subtitle: new Text(listData2.toString()),
                                 onTap: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => MyInvoicePage(
-                                              invoice: listInvoice,
-                                            )),
+                                          invoice: listInvoice,
+                                        )),
                                   );
-                                });
+                                }
+                            );
                           },
-                        ))
+                        )
+                      : new Container(),
+              )
             ],
           ),
         ));
@@ -246,9 +231,11 @@ class _MySearchPageState extends State<MySearchPage> {
     searchresult.clear();
     if (_isSearching != null) {
       for (int i = 0; i < _list.length; i++) {
-        String data = _list[i].counterPartyPartnerName;
-        if (data.toLowerCase().contains(searchText.toLowerCase())) {
-          searchresult.add(data);
+        String partnerName = _list[i].counterPartyPartnerName; //ФЕНИКС example
+        String documentNumber = _list[i].documentNumber; // PRI18002535
+        if (partnerName.toLowerCase().contains(searchText.toLowerCase()) || documentNumber.toLowerCase().contains(searchText.toLowerCase())) {
+          Invoice searchedInvoice =_list[i];
+          searchresult.add(searchedInvoice);
         }
       }
     }
