@@ -20,8 +20,8 @@ class Invoice{
   double? groupTotal;
   bool? groupTopRecord;
   String? partnerDocumentNumber;
-  //DateTime? partnerDocumentDate;
-  //DateTime? partnerDocumentDueDatePayment;
+  String? partnerDocumentDate; //datetime
+  String? partnerDocumentDueDatePayment; //datetime
   double? invoicePrice;
   double? discountRate;
   double? discountAmount;
@@ -36,12 +36,14 @@ class Invoice{
   String? counterPartyPartnerId;
   String? counterPartyPartnerName;
 
-  //DateTime? filterStartPartnerDocumentDate;
-  //DateTime? filterEndPartnerDocumentDate;
-  //DateTime? filterStartPartnerDocumentDueDatePayment;
-  //DateTime? filterEndPartnerDocumentDueDatePayment;
+  String? filterStartPartnerDocumentDate; //datetime
+  String? filterEndPartnerDocumentDate; //datetime
+  String? filterStartPartnerDocumentDueDatePayment;//datetime
+  String? filterEndPartnerDocumentDueDatePayment;//datetime
 
-  Invoice({ this.documentDate, this.counterPartyPartnerId, this.counterPartyPartnerName, this.partnerDocumentNumber, this.invoicePrice,
+  Invoice({ this.filterEndPartnerDocumentDueDatePayment,this.filterStartPartnerDocumentDueDatePayment, this.partnerDocumentDate, this.partnerDocumentDueDatePayment,
+    this.filterStartPartnerDocumentDate, this.filterEndPartnerDocumentDate,
+    this.documentDate, this.counterPartyPartnerId, this.counterPartyPartnerName, this.partnerDocumentNumber, this.invoicePrice,
     this.discountRate, this.discountAmount, this.purchaseAmount, this.purchasePrice, this.vatPurchaseAmount,
     this.partnerDocumentAmount, this.retailMargin, this.reimbursement, this.retailPrice, this.fzoRefPrice,
        this.documentType,

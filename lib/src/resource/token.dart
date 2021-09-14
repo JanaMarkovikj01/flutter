@@ -1,7 +1,4 @@
 import 'dart:convert';
-
-import 'package:phabis_flutter/src/resource/invoice_api_proivder.dart';
-import 'package:time_machine/time_machine.dart';
 //URLs
 final String tokenUrl =
     "https://artemisoft.dyndns-work.com/phabis2-login/oauth/token";
@@ -14,7 +11,6 @@ final String invoiceListUrl =
  final String baseUrl = 'https://artemisoft.dyndns-work.com:8443';
  final String allInvoicesUrl =
     baseUrl + '/phabis2-turnover/api/turnoverInvoice/page';
-
 
 //TOKEN RESOURCES
 String username = 'phabisjwtclientid';
@@ -33,6 +29,8 @@ Map<String, String> body = {
   'username': "admin"
 };
 String mainToken='';
+
+//PARSING
 DateTime parsing(String? s){
   DateTime d;
   if(s!.length != null)

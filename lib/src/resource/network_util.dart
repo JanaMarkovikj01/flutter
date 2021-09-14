@@ -9,7 +9,6 @@ InvoiceApiProvider apiProvider = InvoiceApiProvider();
 class NetworkUtil {
   static Dio _dio = new Dio();
   static NetworkUtil _instance = NetworkUtil.internal();
-
   static String newToken = mainToken;
 
   factory NetworkUtil() => _instance;

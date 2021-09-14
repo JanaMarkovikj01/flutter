@@ -8,6 +8,17 @@ part of 'InvoiceDto.dart';
 
 Invoice _$InvoiceFromJson(Map<String, dynamic> json) {
   return Invoice(
+    filterEndPartnerDocumentDueDatePayment:
+        json['filterEndPartnerDocumentDueDatePayment'] as String?,
+    filterStartPartnerDocumentDueDatePayment:
+        json['filterStartPartnerDocumentDueDatePayment'] as String?,
+    partnerDocumentDate: json['partnerDocumentDate'] as String?,
+    partnerDocumentDueDatePayment:
+        json['partnerDocumentDueDatePayment'] as String?,
+    filterStartPartnerDocumentDate:
+        json['filterStartPartnerDocumentDate'] as String?,
+    filterEndPartnerDocumentDate:
+        json['filterEndPartnerDocumentDate'] as String?,
     documentDate: json['documentDate'] as String?,
     counterPartyPartnerId: json['counterPartyPartnerId'] as String?,
     counterPartyPartnerName: json['counterPartyPartnerName'] as String?,
@@ -51,6 +62,8 @@ Map<String, dynamic> _$InvoiceToJson(Invoice instance) => <String, dynamic>{
       'groupTotal': instance.groupTotal,
       'groupTopRecord': instance.groupTopRecord,
       'partnerDocumentNumber': instance.partnerDocumentNumber,
+      'partnerDocumentDate': instance.partnerDocumentDate,
+      'partnerDocumentDueDatePayment': instance.partnerDocumentDueDatePayment,
       'invoicePrice': instance.invoicePrice,
       'discountRate': instance.discountRate,
       'discountAmount': instance.discountAmount,
@@ -64,6 +77,12 @@ Map<String, dynamic> _$InvoiceToJson(Invoice instance) => <String, dynamic>{
       'fzoRefPrice': instance.fzoRefPrice,
       'counterPartyPartnerId': instance.counterPartyPartnerId,
       'counterPartyPartnerName': instance.counterPartyPartnerName,
+      'filterStartPartnerDocumentDate': instance.filterStartPartnerDocumentDate,
+      'filterEndPartnerDocumentDate': instance.filterEndPartnerDocumentDate,
+      'filterStartPartnerDocumentDueDatePayment':
+          instance.filterStartPartnerDocumentDueDatePayment,
+      'filterEndPartnerDocumentDueDatePayment':
+          instance.filterEndPartnerDocumentDueDatePayment,
     };
 
 K _$enumDecode<K, V>(

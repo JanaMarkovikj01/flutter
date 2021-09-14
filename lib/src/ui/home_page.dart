@@ -34,7 +34,6 @@ class _HomePageState extends State<HomePage> {
             future: fetchToken(),
             builder: (BuildContext context, snapshot) {
               if (snapshot.hasData) {
-                String tokenString = snapshot.data.toString();
                 return Container(
                   alignment: Alignment.center,
                   child: Column(

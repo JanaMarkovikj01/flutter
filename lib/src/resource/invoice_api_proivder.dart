@@ -21,10 +21,7 @@ class InvoiceApiProvider {
     );
     Map<String, dynamic> jsonData =
         jsonDecode(response.body) as Map<String, dynamic>;
-
-    String tokenString = jsonData['access_token'];
-
-    Future<String> token = new Future<String>.value(tokenString);
+    Future<String> token = new Future<String>.value(jsonData['access_token']);
 
     return token;
   }
@@ -65,7 +62,6 @@ class InvoiceApiProvider {
       return true; // response.statusCode == 200;
     });
   }
-
 
   Future<bool> login(String username, String password) async {
     var data = {
