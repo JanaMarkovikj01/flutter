@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:phabis_flutter/src/model/InvoiceDto.dart';
 import 'package:phabis_flutter/src/resource/paging_util.dart';
 import 'package:phabis_flutter/src/ui/selected_invoice.dart';
+import 'package:phabis_flutter/src/ui/widget/my_text_form_field.dart';
 
 import 'home_page.dart';
 
@@ -113,6 +115,7 @@ class _MySearchPageState extends State<MySearchPage> {
 
   @override
   Widget build(BuildContext context) {
+
     return new Scaffold(
         key: globalKey,
         appBar: PreferredSize(
