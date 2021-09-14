@@ -10,6 +10,10 @@ final String invoiceListUrl =
  final String logoutUrl = "";
  final String invoiceCompleteUrl="";
  final String loginUrl="";
+ final String baseUrl = 'https://artemisoft.dyndns-work.com:8443';
+ final String allInvoicesUrl =
+    baseUrl + '/phabis2-turnover/api/turnoverInvoice/page';
+
 
 //TOKEN RESOURCES
 String username = 'phabisjwtclientid';
@@ -27,3 +31,4 @@ Map<String, String> body = {
   'password': "admin1",
   'username': "admin"
 };
+String mainToken='';

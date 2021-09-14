@@ -33,13 +33,15 @@ class Invoice{
   double? retailMargin;
   double? retailPrice;
   double? fzoRefPrice;
+  String? counterPartyPartnerId;
+  String? counterPartyPartnerName;
 
   //DateTime? filterStartPartnerDocumentDate;
   //DateTime? filterEndPartnerDocumentDate;
   //DateTime? filterStartPartnerDocumentDueDatePayment;
   //DateTime? filterEndPartnerDocumentDueDatePayment;
 
-  Invoice({ this.partnerDocumentNumber, this.invoicePrice,
+  Invoice({ this.counterPartyPartnerId, this.counterPartyPartnerName, this.partnerDocumentNumber, this.invoicePrice,
     this.discountRate, this.discountAmount, this.purchaseAmount, this.purchasePrice, this.vatPurchaseAmount,
     this.partnerDocumentAmount, this.retailMargin, this.reimbursement, this.retailPrice, this.fzoRefPrice,
        this.documentType,

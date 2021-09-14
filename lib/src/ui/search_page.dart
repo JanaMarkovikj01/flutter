@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:phabis_flutter/src/model/InvoiceDto.dart';
+import 'package:phabis_flutter/src/resource/paging_util.dart';
 import 'package:phabis_flutter/src/resource/repository.dart';
+import 'package:phabis_flutter/src/ui/selected_invoice.dart';
 import 'package:phabis_flutter/src/ui/widget/my_text_form_field.dart';
+
+import 'home_page.dart';
 
 class MySearchPage extends StatefulWidget implements PreferredSizeWidget {
   @override
@@ -14,7 +18,19 @@ class MySearchPage extends StatefulWidget implements PreferredSizeWidget {
   _MySearchPageState createState() => new _MySearchPageState();
 }
 
+Invoice invoice = Invoice();
+int index = 0;
+List<Invoice> invoices = [invoice];
+
+Future<void> getInvoicesList() async {
+  PageResponse<Invoice> response = await fetchData();
+  invoices = response.content;
+}
+
 class _MySearchPageState extends State<MySearchPage> {
+  final ScrollController _scrollController = ScrollController();
+
+  bool _isLoading = false;
   Widget appBarTitle = new Text(
     "Search Page",
     style: new TextStyle(color: Colors.white),
@@ -51,19 +67,46 @@ class _MySearchPageState extends State<MySearchPage> {
   void initState() {
     super.initState();
     _isSearching = false;
+    _scrollController.addListener(_onScroll);
+    index = 0;
     values();
   }
 
+  _onScroll() {
+    if (_scrollController.offset >=
+            _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      setState(() {
+        _isLoading = true;
+      });
+      _fetchData();
+    }
+  }
+
+  Future _fetchData() async {
+    await new Future.delayed(new Duration(seconds: 2));
+    int lastIndex = _list.length;
+    // print(_list.length);
+
+    setState(() {
+      _list.addAll(
+        invoices.getRange(index, index + 10),
+      );
+      _isLoading = false;
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _controller.dispose();
+    super.dispose();
+  }
+
   void values() {
-    _list = [];
-    _list.add("Zeus");
-    _list.add("Poseidon");
-    _list.add("Dionysus");
-    _list.add("Hades");
-    _list.add("Persephone");
-    _list.add("Demeter");
-    _list.add("Cronus");
-    _list.add("Rhea");
+    getInvoicesList();
+    _list = invoices;
+    print(_list.length);
   }
 
   @override
@@ -105,20 +148,37 @@ class _MySearchPageState extends State<MySearchPage> {
                           shrinkWrap: true,
                           itemCount: searchresult.length,
                           itemBuilder: (BuildContext context, int index) {
-                            String listData = searchresult[index];
+                            String listData = searchresult[index].toString();
                             return new ListTile(
                               title: new Text(listData.toString()),
                             );
                           },
                         )
                       : new ListView.builder(
+                          controller: _scrollController,
                           shrinkWrap: true,
-                          itemCount: _list.length,
+                          itemCount:
+                              _isLoading ? _list.length + 1 : _list.length,
                           itemBuilder: (BuildContext context, int index) {
-                            String listData = _list[index];
+                            if (_list.length == index)
+                              return Center(child: CircularProgressIndicator());
+                            String listData1 =
+                                _list[index].counterPartyPartnerName.toString();
+                            Invoice listInvoice = _list[index];
+                            String listData2 =
+                                _list[index].purchaseAmount.toString();
                             return new ListTile(
-                              title: new Text(listData.toString()),
-                            );
+                                title: new Text(listData1.toString()),
+                                subtitle: new Text(listData2.toString()),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => MyInvoicePage(
+                                              invoice: listInvoice,
+                                            )),
+                                  );
+                                });
                           },
                         ))
             ],

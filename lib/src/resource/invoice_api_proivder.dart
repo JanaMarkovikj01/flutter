@@ -35,8 +35,6 @@ class InvoiceApiProvider {
     //empty invoice
     var example = Invoice();
     PageRequestByExample req = PageRequestByExample(example, lazyLoadEvent);
-    Map<String, dynamic> data = lazyLoadEvent.toJson();
-
     return await NetworkUtil.internal()
         .post(invoiceListUrl, data: req, options: options)
         .then((Response response) {

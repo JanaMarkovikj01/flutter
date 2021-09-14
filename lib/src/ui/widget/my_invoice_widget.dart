@@ -1,75 +1,7 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:phabis_flutter/src/model/InvoiceDto.dart';
-import 'package:phabis_flutter/src/resource/paging_util.dart';
-import 'package:phabis_flutter/src/ui/home_page.dart';
-import 'package:phabis_flutter/src/ui/search_page.dart';
-/*
-int index = 0;
-class InvoicePage extends StatefulWidget {
-
-  static String tag = 'invoice-page';
-
-  const InvoicePage({Key? key}) : super(key: key);
-
-  @override
-  _InvoicePageState createState() => _InvoicePageState();
-}
-
-Invoice invoice = Invoice();
-List<Invoice> invoices = [invoice];
-Future<void> getInvoicesList() async {
-  PageResponse<Invoice> response = await fetchData();
-  invoices = response.content;
-}
-class _InvoicePageState extends State<InvoicePage> {
-  void ButtonClick() {
-    setState(() {
-      index++;
-      invoice = invoices[index];
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    print("LENGTH" + invoices.length.toString());
-    index=0;
-    getInvoicesList();
-    invoice = invoices[index];
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      type: MaterialType.transparency,
-      child: Container(
-        color: Colors.white,
-        child: Column(
-          children: [
-            AppBar(
-              title: Text('Invoice Page'),
-            ),
-            InvoiceCard(invoice),
-            TextButton(
-                onPressed: () {
-                  ButtonClick();
-                },
-                child: Text('Next invoice',
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20))),
-            TextButton(
-                onPressed: () { Navigator.push(context,MaterialPageRoute(builder: (context) => MySearchPage()),);},
-                child: Text('Go to search page',
-                    style:
-                    TextStyle(fontWeight: FontWeight.bold, fontSize: 20))),
-
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 var padding = Padding(padding: EdgeInsets.all(12));
 
@@ -166,7 +98,7 @@ Widget InvoiceCard(Invoice invoice) {
                       softWrap: false,
                       overflow: TextOverflow.ellipsis,
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
                   )
                 ],
@@ -200,7 +132,7 @@ Widget InvoiceCard(Invoice invoice) {
                       softWrap: false,
                       overflow: TextOverflow.ellipsis,
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
                   )
                 ],
@@ -231,4 +163,3 @@ Widget InvoiceCard(Invoice invoice) {
     ]),
   );
 }
-*/

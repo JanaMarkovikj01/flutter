@@ -11,7 +11,7 @@ class LazyLoadEvent {
   LazyLoadEvent(
     this.first,
     this.rows,[this.sortField, this.sortOrder, this.globalFilter]
-  ); //   [this.sortField, sortOrder, this.globalFilter]
+  );
 
   LazyLoadEvent.fromJson(Map<String, dynamic> json)
       : first = json['first'],

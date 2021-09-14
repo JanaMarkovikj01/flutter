@@ -2,12 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:phabis_flutter/src/resource/invoice_api_proivder.dart';
+import 'package:phabis_flutter/src/ui/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'invoice_page.dart';
 import 'widget/my_button.dart';
 import 'widget/my_text_form_field.dart';
 
+InvoiceApiProvider apiProvider = new InvoiceApiProvider();
 class LoginPage extends StatefulWidget {
   static String tag = 'login-page';
 
@@ -82,15 +85,13 @@ class _LoginPageState extends State<LoginPage> {
         _loginErrorDialog();
       else {
         _rememberUsernameAndPassword();
-
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => InvoicePage()),
+          MaterialPageRoute(builder: (context) => HomePage()),
         );
       }
     }
   }
-
   Future<void> _loginErrorDialog() async {
     return showDialog<void>(
       context: context,

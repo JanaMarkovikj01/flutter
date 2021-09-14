@@ -8,6 +8,8 @@ part of 'InvoiceDto.dart';
 
 Invoice _$InvoiceFromJson(Map<String, dynamic> json) {
   return Invoice(
+    counterPartyPartnerId: json['counterPartyPartnerId'] as String?,
+    counterPartyPartnerName: json['counterPartyPartnerName'] as String?,
     partnerDocumentNumber: json['partnerDocumentNumber'] as String?,
     invoicePrice: (json['invoicePrice'] as num?)?.toDouble(),
     discountRate: (json['discountRate'] as num?)?.toDouble(),
@@ -58,6 +60,8 @@ Map<String, dynamic> _$InvoiceToJson(Invoice instance) => <String, dynamic>{
       'retailMargin': instance.retailMargin,
       'retailPrice': instance.retailPrice,
       'fzoRefPrice': instance.fzoRefPrice,
+      'counterPartyPartnerId': instance.counterPartyPartnerId,
+      'counterPartyPartnerName': instance.counterPartyPartnerName,
     };
 
 K _$enumDecode<K, V>(

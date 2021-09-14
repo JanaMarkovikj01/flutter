@@ -3,6 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:phabis_flutter/src/model/InvoiceDto.dart';
 import 'package:phabis_flutter/src/resource/invoice_api_proivder.dart';
 import 'package:phabis_flutter/src/resource/paging_util.dart';
+import 'package:phabis_flutter/src/resource/token.dart';
+import 'package:phabis_flutter/src/ui/search2.dart';
+import 'package:phabis_flutter/src/ui/search_page.dart';
+import 'package:phabis_flutter/src/ui/selected_invoice.dart';
+
+import 'invoice_page.dart';
 
 InvoiceApiProvider apiProvider = InvoiceApiProvider();
 Invoice invoice = Invoice();
@@ -17,6 +23,7 @@ class HomePage extends StatefulWidget {
 }
 
 Future<String> fetchToken() async {
+  mainToken = await apiProvider.fetchToken();
   return apiProvider.fetchToken();
 }
 
@@ -32,16 +39,37 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children: [
           FutureBuilder(
-            future: fetchData(),
+            future: fetchToken(),
             builder: (BuildContext context, snapshot) {
               if (snapshot.hasData) {
-                String s = snapshot.data.toString();
-                return Text(s);
+                String tokenString = snapshot.data.toString();
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("TOKEN:", style: TextStyle(fontWeight: FontWeight.bold),),
+                    Text(tokenString),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MySearchPage()));
+                        },
+                        child: Text('Go to search page',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20))),
+                  ],
+                );
               } else if (snapshot.hasError) {
                 print(snapshot.error);
                 return Text('${snapshot.error}');
               } else {
-                return CircularProgressIndicator();
+                return Container(
+                  alignment: Alignment.center,
+                  child:
+                    CircularProgressIndicator(),
+
+              );
               }
             },
           )

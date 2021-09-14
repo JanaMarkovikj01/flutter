@@ -2,25 +2,18 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:phabis_flutter/src/resource/invoice_api_proivder.dart';
+import 'package:phabis_flutter/src/resource/token.dart';
 
 InvoiceApiProvider apiProvider = InvoiceApiProvider();
-late String token;
-Future<void> awaitToken() async{
-  token = await apiProvider.fetchToken();
-}
+
 class NetworkUtil {
   static Dio _dio = new Dio();
   static NetworkUtil _instance = NetworkUtil.internal();
 
-  static String newToken = token;
+  static String newToken = mainToken;
 
   factory NetworkUtil() => _instance;
-  static final String baseUrl = 'https://artemisoft.dyndns-work.com:8443';
-  static final String allInvoicesUrl= baseUrl + '/phabis2-turnover/api/turnoverInvoice/page';
-
   NetworkUtil.internal() {
-    awaitToken();
-    print("NETWORK UTIL NEW TOKEN:" + newToken);
     _dio.interceptors.clear();
     _dio.options.baseUrl = allInvoicesUrl;
     _dio.interceptors
