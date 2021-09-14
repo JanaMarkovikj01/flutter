@@ -90,7 +90,7 @@ class _MySearchPageState extends State<MySearchPage> {
 
     setState(() {
       _list.addAll(
-        invoices.getRange(index, index + 10),
+        invoices.getRange(index,index),
       );
       _isLoading = false;
     });
@@ -105,7 +105,7 @@ class _MySearchPageState extends State<MySearchPage> {
 
   void values() {
     getInvoicesList();
-    _list = invoices;
+   _list = invoices;
     print(_list.length);
   }
 
@@ -149,8 +149,11 @@ class _MySearchPageState extends State<MySearchPage> {
                           itemCount: searchresult.length,
                           itemBuilder: (BuildContext context, int index) {
                             String listData = searchresult[index].toString();
+                            String listData2 =
+                            _list[index].purchaseAmount.toString();
                             return new ListTile(
                               title: new Text(listData.toString()),
+                              subtitle: new Text(listData2.toString()),
                             );
                           },
                         )
@@ -243,7 +246,7 @@ class _MySearchPageState extends State<MySearchPage> {
     searchresult.clear();
     if (_isSearching != null) {
       for (int i = 0; i < _list.length; i++) {
-        String data = _list[i];
+        String data = _list[i].counterPartyPartnerName;
         if (data.toLowerCase().contains(searchText.toLowerCase())) {
           searchresult.add(data);
         }

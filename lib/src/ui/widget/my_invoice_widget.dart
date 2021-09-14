@@ -19,7 +19,7 @@ Widget InvoiceCard(Invoice invoice) {
               width: 3,
             ),
           ),
-          child: Column(
+          child: Wrap(
             children: [
               Container(
                   padding: EdgeInsets.all(12),
@@ -28,23 +28,28 @@ Widget InvoiceCard(Invoice invoice) {
                       bottom: BorderSide(color: Colors.black, width: 3.0),
                     ),
                   ),
-                  child: Row(
+                  child: Wrap(
+                    children: [Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
+                      const Expanded(child:   Text(
                         'Partner Name: ',
                         style: TextStyle(fontSize: 13),
                       ),
+                      ),
+
                       Text(
                         invoice.counterPartyPartnerName.toString(),
                         softWrap: false,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 14),
-
                       ),
                     ],
-                  )),
+                  ),
+      ],
+                  ),
+              ),
               Container(
                   padding: EdgeInsets.all(12),
                   decoration: BoxDecoration(

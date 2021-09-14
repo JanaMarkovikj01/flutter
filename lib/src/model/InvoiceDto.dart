@@ -47,13 +47,6 @@ class Invoice{
        this.documentType,
     this.id, this.documentNumber, this.turnoverType,  this.quantity, this.vatRate, this.divide, this.confirmed, this.groupTopRecord, this.groupTotal});
 
-/*/
-  Invoice({ this.partnerDocumentNumber, this.partnerDocumentDate, this.partnerDocumentDueDatePayment, this.invoicePrice,
-    this.discountRate, this.discountAmount, this.purchaseAmount, this.purchasePrice, this.vatPurchaseAmount,
-    this.partnerDocumentAmount, this.retailMargin, this.reimbursement, this.retailPrice, this.fzoRefPrice, this.filterEndPartnerDocumentDate,
-    this.filterEndPartnerDocumentDueDatePayment, this.filterStartPartnerDocumentDate, this.filterStartPartnerDocumentDueDatePayment, this.documentType,
-    this.id, this.documentNumber, this.turnoverType, this.documentDate, this.quantity, this.vatRate, this.divide, this.confirmed, this.groupTopRecord, this.groupTotal});
-  */
 
   factory Invoice.fromJson(Map<String,dynamic> data) => _$InvoiceFromJson(data);
 
