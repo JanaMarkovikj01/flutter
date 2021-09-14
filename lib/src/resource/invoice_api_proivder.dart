@@ -66,17 +66,6 @@ class InvoiceApiProvider {
     });
   }
 
-  Future<List> complete(String pattern) async {
-    var autocompleteQuery = {"query": pattern, "maxResults": 10};
-    return await NetworkUtil.internal()
-        .post(invoiceCompleteUrl, data: autocompleteQuery, options: options)
-        .then((Response response) {
-      List<dynamic> data = jsonDecode(response.data);
-      List<Invoice> invoices =
-          data.map((data) => Invoice.fromJson(data)).toList();
-      return invoices;
-    });
-  }
 
   Future<bool> login(String username, String password) async {
     var data = {

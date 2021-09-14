@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:phabis_flutter/src/model/InvoiceDto.dart';
 import 'package:phabis_flutter/src/resource/paging_util.dart';
-import 'package:phabis_flutter/src/resource/repository.dart';
 import 'package:phabis_flutter/src/ui/selected_invoice.dart';
-import 'package:phabis_flutter/src/ui/widget/my_text_form_field.dart';
 
 import 'home_page.dart';
 
@@ -19,17 +16,22 @@ class MySearchPage extends StatefulWidget implements PreferredSizeWidget {
 }
 
 Invoice invoice = Invoice();
+Invoice probenInvoice = Invoice();
 int index = 0;
 List<Invoice> invoices = [invoice];
+
+Future<PageResponse<Invoice>> fetchData() async {
+  return apiProvider.fetchInvoices(invoice, 0, 20);
+}
 
 Future<void> getInvoicesList() async {
   PageResponse<Invoice> response = await fetchData();
   invoices = response.content;
+  probenInvoice = invoices[2];
 }
 
 class _MySearchPageState extends State<MySearchPage> {
   final ScrollController _scrollController = ScrollController();
-
   bool _isLoading = false;
   Widget appBarTitle = new Text(
     "Search Page",
@@ -41,13 +43,13 @@ class _MySearchPageState extends State<MySearchPage> {
   );
   final globalKey = new GlobalKey<ScaffoldState>();
   final TextEditingController _controller = new TextEditingController();
-  final _repository = Repository();
   late List<dynamic> _list;
   late bool _isSearching;
   String _searchText = "";
   List searchresult = [];
 
   _MySearchPageState() {
+    getInvoicesList();
     _controller.addListener(() {
       if (_controller.text.isEmpty) {
         setState(() {
@@ -90,7 +92,7 @@ class _MySearchPageState extends State<MySearchPage> {
 
     setState(() {
       _list.addAll(
-        invoices.getRange(index,index),
+        invoices.getRange(index, index),
       );
       _isLoading = false;
     });
@@ -105,32 +107,12 @@ class _MySearchPageState extends State<MySearchPage> {
 
   void values() {
     getInvoicesList();
-   _list = invoices;
+    _list = invoices;
     print(_list.length);
   }
 
   @override
   Widget build(BuildContext context) {
-    final invoice = TypeAheadFormField<dynamic>(
-      textFieldConfiguration: TextFieldConfiguration(
-          decoration: MyInputDecoration(hintText: 'пациент'),
-          controller: _controller),
-      suggestionsCallback: (pattern) =>
-          _repository.autocompleteInvoice(pattern),
-      itemBuilder: (BuildContext context, dynamic invoice) =>
-          ListTile(title: Text((invoice as Invoice).toString())),
-      transitionBuilder: (context, suggestionsBox, controller) =>
-          suggestionsBox,
-      noItemsFoundBuilder: (_) => Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Text("нема резултати"),
-      ),
-      onSuggestionSelected: (i) {
-        Invoice invoice = i as Invoice;
-        _controller.text = invoice.toString();
-      },
-    );
-
     return new Scaffold(
         key: globalKey,
         appBar: PreferredSize(
@@ -143,31 +125,37 @@ class _MySearchPageState extends State<MySearchPage> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               new Flexible(
-                  child: searchresult.length != 0 || _controller.text.isNotEmpty
-                      ? new ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: searchresult.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            String listData = searchresult[index].counterPartyPartnerName.toString();
-                            String listData2 =
-                            _list[index].purchaseAmount.toString();
-                            Invoice listInvoice = searchresult[index];
-                            return new ListTile(
+                child: searchresult.length != 0 || _controller.text.isNotEmpty
+                    ? new ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: searchresult.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          String listData = searchresult[index]
+                              .counterPartyPartnerName
+                              .toString();
+                          String listData2 =
+                              _list[index].documentNumber.toString();
+                          Invoice listInvoice = searchresult[index];
+                          return new ListTile(
                               title: new Text(listData.toString()),
                               subtitle: new Text(listData2.toString()),
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => MyInvoicePage(
-                                          invoice: listInvoice,
-                                        )),
-                                  );
-                                }
-                            );
-                          },
-                        )
-                      : new Container(),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => MyInvoicePage(
+                                            invoice: listInvoice,
+                                          )),
+                                );
+                              });
+                        },
+                      )
+                    : new Column(children: [
+                        Text('Elements in invoice list: ' +
+                            _list.length.toString()),
+                        Text(probenInvoice.documentDate.toString()),
+                        //Text("PARSED DATETIME STRING: " + parsing(probenInvoice.documentDate).toString())
+                      ]),
               )
             ],
           ),
@@ -192,7 +180,7 @@ class _MySearchPageState extends State<MySearchPage> {
                 ),
                 decoration: new InputDecoration(
                     prefixIcon: new Icon(Icons.search, color: Colors.white),
-                    hintText: "Search...",
+                    hintText: "Search name...",
                     hintStyle: new TextStyle(color: Colors.white)),
                 onChanged: searchOperation,
               );
@@ -231,10 +219,11 @@ class _MySearchPageState extends State<MySearchPage> {
     searchresult.clear();
     if (_isSearching != null) {
       for (int i = 0; i < _list.length; i++) {
-        String partnerName = _list[i].counterPartyPartnerName; //ФЕНИКС example
-        String documentNumber = _list[i].documentNumber; // PRI18002535
-        if (partnerName.toLowerCase().contains(searchText.toLowerCase()) || documentNumber.toLowerCase().contains(searchText.toLowerCase())) {
-          Invoice searchedInvoice =_list[i];
+        String partnerName =
+            _list[i].counterPartyPartnerName; //ФЕНИКС/нелт example
+        String documentNumber = _list[i].documentNumber; // PRI18002535 example
+        if (partnerName.toLowerCase().contains(searchText.toLowerCase())) {
+          Invoice searchedInvoice = _list[i];
           searchresult.add(searchedInvoice);
         }
       }

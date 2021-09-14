@@ -8,6 +8,7 @@ part of 'InvoiceDto.dart';
 
 Invoice _$InvoiceFromJson(Map<String, dynamic> json) {
   return Invoice(
+    documentDate: json['documentDate'] as String?,
     counterPartyPartnerId: json['counterPartyPartnerId'] as String?,
     counterPartyPartnerName: json['counterPartyPartnerName'] as String?,
     partnerDocumentNumber: json['partnerDocumentNumber'] as String?,
@@ -41,6 +42,7 @@ Map<String, dynamic> _$InvoiceToJson(Invoice instance) => <String, dynamic>{
       'id': instance.id,
       'documentType': _$DocumentTypeEnumMap[instance.documentType],
       'documentNumber': instance.documentNumber,
+      'documentDate': instance.documentDate,
       'quantity': instance.quantity,
       'vatRate': instance.vatRate,
       'turnoverType': _$TurnoverTypeEnumMap[instance.turnoverType],

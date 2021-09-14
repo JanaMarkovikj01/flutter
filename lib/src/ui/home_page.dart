@@ -2,13 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:phabis_flutter/src/model/InvoiceDto.dart';
 import 'package:phabis_flutter/src/resource/invoice_api_proivder.dart';
-import 'package:phabis_flutter/src/resource/paging_util.dart';
 import 'package:phabis_flutter/src/resource/token.dart';
-import 'package:phabis_flutter/src/ui/search2.dart';
 import 'package:phabis_flutter/src/ui/search_page.dart';
-import 'package:phabis_flutter/src/ui/selected_invoice.dart';
-
-import 'invoice_page.dart';
+import 'package:phabis_flutter/src/ui/widget/my_invoice_widget.dart';
 
 InvoiceApiProvider apiProvider = InvoiceApiProvider();
 Invoice invoice = Invoice();
@@ -27,10 +23,6 @@ Future<String> fetchToken() async {
   return apiProvider.fetchToken();
 }
 
-Future<PageResponse<Invoice>> fetchData() async {
-  return apiProvider.fetchInvoices(invoice, 0, 20);
-}
-
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
@@ -43,22 +35,29 @@ class _HomePageState extends State<HomePage> {
             builder: (BuildContext context, snapshot) {
               if (snapshot.hasData) {
                 String tokenString = snapshot.data.toString();
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("TOKEN:", style: TextStyle(fontWeight: FontWeight.bold),),
-                    Text(tokenString),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MySearchPage()));
-                        },
-                        child: Text('Go to search page',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20))),
-                  ],
+                return Container(
+                  alignment: Alignment.center,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      padding,
+                      Text(
+                        "WELCOME",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 30),
+                      ),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MySearchPage()));
+                          },
+                          child: Text('Go to search page',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20))),
+                    ],
+                  ),
                 );
               } else if (snapshot.hasError) {
                 print(snapshot.error);
@@ -66,10 +65,8 @@ class _HomePageState extends State<HomePage> {
               } else {
                 return Container(
                   alignment: Alignment.center,
-                  child:
-                    CircularProgressIndicator(),
-
-              );
+                  child: CircularProgressIndicator(),
+                );
               }
             },
           )

@@ -85,6 +85,7 @@ class _LoginPageState extends State<LoginPage> {
         _loginErrorDialog();
       else {
         _rememberUsernameAndPassword();
+        apiProvider.login('admin', 'admin1');
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => HomePage()),

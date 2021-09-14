@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:phabis_flutter/src/resource/invoice_api_proivder.dart';
+import 'package:time_machine/time_machine.dart';
 //URLs
 final String tokenUrl =
     "https://artemisoft.dyndns-work.com/phabis2-login/oauth/token";
@@ -32,3 +33,12 @@ Map<String, String> body = {
   'username': "admin"
 };
 String mainToken='';
+DateTime parsing(String? s){
+  DateTime d;
+  if(s!.length != null)
+   d = DateTime.parse(s);
+  else
+    d = new DateTime(2021,20,0,0,0,0);
+
+  return d;
+}

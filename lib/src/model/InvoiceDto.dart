@@ -11,7 +11,7 @@ class Invoice{
   String? id;
   DocumentType? documentType;
   String? documentNumber;
-  //DateTime? documentDate;
+  String? documentDate;
   double? quantity;
   double? vatRate;
   TurnoverType? turnoverType;
@@ -41,7 +41,7 @@ class Invoice{
   //DateTime? filterStartPartnerDocumentDueDatePayment;
   //DateTime? filterEndPartnerDocumentDueDatePayment;
 
-  Invoice({ this.counterPartyPartnerId, this.counterPartyPartnerName, this.partnerDocumentNumber, this.invoicePrice,
+  Invoice({ this.documentDate, this.counterPartyPartnerId, this.counterPartyPartnerName, this.partnerDocumentNumber, this.invoicePrice,
     this.discountRate, this.discountAmount, this.purchaseAmount, this.purchasePrice, this.vatPurchaseAmount,
     this.partnerDocumentAmount, this.retailMargin, this.reimbursement, this.retailPrice, this.fzoRefPrice,
        this.documentType,
