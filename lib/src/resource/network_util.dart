@@ -41,6 +41,11 @@ class NetworkUtil {
   }
 
   Future<Response> post(String url, {required Options options, data}) async {
+
+    print("DIO DATA DOCUMENT NUMBER" + data.example.documentNumber.toString());
+    print("DIO DATA DOCUMENT DATE FROM" + data.example.filterStartPartnerDocumentDate.toString());
+    print("DIO DATA DOCUMENT DATE TO" + data.example.filterEndPartnerDocumentDate.toString());
+
     return await _dio.post(url, data: data, options: options);
   }
 

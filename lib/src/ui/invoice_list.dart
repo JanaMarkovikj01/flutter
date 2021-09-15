@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:phabis_flutter/src/model/InvoiceDto.dart';
+import 'package:phabis_flutter/src/resource/paging_util.dart';
 import 'package:phabis_flutter/src/resource/token.dart';
 import 'package:phabis_flutter/src/ui/selected_invoice.dart';
-
 
 
 class ListPage extends StatefulWidget {
@@ -16,26 +16,27 @@ class ListPage extends StatefulWidget {
 
 class _ListPageState extends State<ListPage> {
 
-  List<Invoice> list = invoiceList;
+   List<Invoice> list = invoiceList;
   final ScrollController _scrollController = ScrollController();
   bool _isLoading = false;
   final globalKey = new GlobalKey<ScaffoldState>();
 
-  _ListPageState(){
-    getInvoicesList();
+  /*_ListPageState(){
+
+    getListOfInvoices(widget.invoice);
     list = invoiceList;
+    print(list.length);
     _scrollController.addListener(_onScroll);
     print(invoiceList.length);
-  }
+  }*/
+
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
-    print(widget.invoice.documentNumber.toString());
 
-    //getListOfInvoices(widget.invoice);
-    getInvoicesList();
+    getListOfInvoices(widget.invoice);
     list = invoiceList;
     print(invoiceList.length);
   }

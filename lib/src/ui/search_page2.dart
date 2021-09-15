@@ -24,10 +24,7 @@ class SearchPage extends StatefulWidget {
 
 Invoice invoiceToSend = Invoice();
 List<Invoice> invoices = [];
-Future<void> getInvoicesList() async {
-  PageResponse<Invoice> response = await fetchData();
-  invoices = response.content;
-}
+
 class _SearchPageState extends State<SearchPage> {
 
   final _formKey = GlobalKey<FormState>();
@@ -41,8 +38,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     super.initState();
-
-    getInvoicesList();
+   // getInvoicesList();
    // invoiceToSend.counterPartyPartnerName = "ФЕНИКС ФАРМА - СКОПЈЕ";
     invoiceToSend.documentNumber = 'PRI18000340';
     _invoiceDocumentNumberController.text = invoiceToSend.documentNumber!;

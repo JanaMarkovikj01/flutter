@@ -217,4 +217,6 @@ class _MySearchPageState extends State<MySearchPage> {
       }
     }
   }
+
+  void getInvoicesList() {}
 }

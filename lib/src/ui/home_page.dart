@@ -23,7 +23,6 @@ Future<String> fetchToken() async {
 }
 
 
-
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
@@ -35,6 +34,7 @@ class _HomePageState extends State<HomePage> {
             future: fetchToken(),
             builder: (BuildContext context, snapshot) {
               if (snapshot.hasData) {
+                print(snapshot.data);
                 return Container(
                   alignment: Alignment.center,
                   child: Column(

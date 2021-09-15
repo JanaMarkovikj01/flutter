@@ -41,13 +41,12 @@ Invoice thisInvoice = Invoice();
 Future<PageResponse<Invoice>> fetchData() async {
   return apiProvider.fetchInvoices(thisInvoice, 0,20);
 }
-List<Invoice> invoiceList = [];
 Future<void> getInvoicesList() async {
   PageResponse<Invoice> response = await fetchData();
   invoiceList = response.content;
-  print("METHOD IN TOKEN.DART RESULTS: " + invoiceList.length.toString());
-  invoices = response.content;
+  print("METHOD IN INVOICE LIST PAGE RESULTS: " + invoiceList.length.toString());
 }
+List<Invoice> invoiceList = [];
 
 Future<void> getListOfInvoices(Invoice inv) async{
   PageResponse<Invoice> response = await fetchDataForInvoice(inv);
